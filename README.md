@@ -1,2 +1,2 @@
-# JavaScript
+# Javascript
  My personal JS notes
