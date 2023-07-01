@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="print">
+        <h3 id="country"> </h3>
+        <p id="languages"> </p>
+    </div>
+    <script>
+        // var countryData = []
+        // const getData =  function (country) {
+        //     const newData = fetch(`https://restcountries.com/v3.1/name/${country}`)
+        //     .then(response => response.json())
+        //     .then(data => countryData = data[0])
+
+        //     var populatonField = document.getElementById("country")
+        //     populatonField.innerHTML = countryData.population
+
+        //     var languagesField = document.getElementById("languages");
+        //     languagesField.innerHTML = Object.values(countryData.languages);
+        // }
+        
+
+        var countryData = {};
+
+        const getData = async function (country) {
+            try {
+                const response = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+                const data = await response.json();
+                countryData = data[0];
+                populatePopulationField();
+            } 
+            catch (error) {
+                console.error('Error fetching country data:', error);
+            }
+        };
+
+        const populatePopulationField = function () {
+            var populationField = document.getElementById("country");
+            populationField.innerHTML = countryData.population;
+
+            var languagesField = document.getElementById("languages");
+            languagesField.innerHTML = Object.values(countryData.languages);
+        };
+
+        getData("india");
+
+    </script>
+</body>
+    
+</html>
