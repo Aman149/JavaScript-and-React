@@ -72,7 +72,7 @@ function Header() {
             }, 
             {
                 headers: {
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer YOUR_API_KEY',
                     'Content-Type': 'application/json'
                 } 
             }    
