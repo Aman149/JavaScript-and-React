@@ -1,47 +1,39 @@
-import axios from 'axios';
-import { useState,useEffect } from "react";
-import './App.css';
+import { useState } from 'react'
+import './App.css'
 
+var count = 0;
 function App() {
-  //var listItems = []
-  const [movies,setMovies]= useState([]);
-  const [isLoading,setIsLoading]= useState(false);
+  const [countryData, setCountryData] = useState(null);
 
-  async function fetchMovies() {
-    setIsLoading(true); 
-    try {
-      const response = await fetch('https://swapi.dev/api/films/');
-      if(!response.ok) 
-        throw new Error('Api Failed');
-      const data = await response.json();
-
-      const newData = data.results.map((movieData) => {
-        return {
-         title: movieData.title,
-         releaseDate: movieData.release_date
-        };
-      });
+  async function fetchCountryData(countryName) {
+    if(count == 0) {
+      try {
+        const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+        const data = await response.json();
+        setCountryData(data);
+        } catch (error) {
+          console.log("API error:", error);
+      }
+      count++;
+    }
+  };
   
-      setMovies(newData);
-      console.log(newData);
-      setIsLoading(false);
-    } catch(error) {
-      console.log(error);
-    }
-    
-  }
-  useEffect(() => {fetchMovies()},[]);
+  fetchCountryData('india')
 
-  return (
-    <div className="App"> 
-    {isLoading ?
-    <p>Loading...</p> :
-    movies.map((movie, index) => {
-      return <li key={index}>{movie.title} : {movie.releaseDate}</li>
-    })
-    }
-    </div>
-  );
+    return (
+      <div>
+        {countryData ? (
+          <>
+            <h1>Country: {countryData[0].name.common}</h1>
+            <img src={countryData[0].flags.svg} alt="Country Flag" width="200" />
+            <h2>Capital: {countryData[0].capital}</h2>
+            <h3>Population: {countryData[0].population.toLocaleString()}</h3>
+          </>
+        ):
+        <h2>Loading...</h2>        
+        }
+      </div>
+    );
 }
 
-export default App;
+export default App
